@@ -5,8 +5,15 @@ var port = process.env.PORT || 3000; // either equal to environment variable or 
 
 app.use('/assets', express.static(__dirname + '/public')); // middleware for static files
 
+app.set('view engine', 'ejs'); // will look for folder views
+
+app.use('/', function(req, res, next) { // make your own middleware. when a particular request comes in, run the function
+  console.log('Request Url: ' + req.url)
+  next()
+});
+
 app.get('/', function(req, res) { // if GET method was requested on the url '/' (routes)
-  res.send("<html><head><link href='assets/style.css' type='text/css' rel='stylesheet'/></head><body><h1>Hello World</h1></body></html>")
+  res.render('index') // look at index file in the view folder
 });
 
 app.get('/api', function(req, res) { // if GET method was requested on the url '/api'
@@ -14,7 +21,7 @@ app.get('/api', function(req, res) { // if GET method was requested on the url '
 });
 
 app.get('/person/:id', function(req, res) { // :id is a variable name
-  res.send('<html><head></head><body><h1>Person: ' + req.params.id + '</h1></body></html>') // puts id into the params obj
+  res.render('person', {ID: req.params.id}); // puts id into the params obj. render will send it to the person view file.
 });
 
 app.listen(port); // combines the createServer and listen in nodejs
