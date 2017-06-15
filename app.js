@@ -6,7 +6,7 @@ var port = process.env.PORT || 3000; // either equal to environment variable or 
 
 var urlencodedParser = bodyParser.urlencoded({extended:false})
 
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
 app.use('/assets', express.static(__dirname + '/public')); // middleware for static files
 
@@ -39,7 +39,21 @@ app.post('/personjson', jsonParser, function(req, res) {
   res.send('Thank you for the json data');
   console.log(req.body.firstname);
   console.log(req.body.lastname);
-})
+});
+
+// restful api example
+
+app.post('/api/person', jsonParser, function(req, res) {
+  //save to database
+});
+
+app.get('/api/person/:id', function(req, res) {
+  //get data from database
+});
+
+app.delete('/api/person/:id', function(req, res) {
+  //delete from database
+});
 
 app.listen(port); // combines the createServer and listen in nodejs
 
